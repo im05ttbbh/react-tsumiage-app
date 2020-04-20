@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Form, InputGroup, Input, InputGroupAddon, Button, Table } from "reactstrap";
@@ -8,6 +8,8 @@ import { Icon } from '@iconify/react';
 import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
 import { TwitterShareButton } from 'react-share';
 import { app } from './base';
+import firebase from 'firebase';
+import "firebase/fire";
 
   const App = ({ history }) => {
     const [value, setValue] = useState("");
