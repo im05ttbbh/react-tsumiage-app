@@ -9,7 +9,7 @@ import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
 import { TwitterShareButton } from 'react-share';
 import { app } from './base';
 import firebase from 'firebase';
-import "firebase/fire";
+// import "firebase/fire";
 
   const App = ({ history }) => {
     const [value, setValue] = useState("");
@@ -21,42 +21,42 @@ import "firebase/fire";
       setValue("")
     }
 
-  const addTodo = text => {
-    const newTodos = [...todos, {
-      text,
-      completed: false,
-      editing: false
-    }];
-    if (!text) return;
-    setTodos(newTodos)
-    console.log(newTodos);
-  }
+    const addTodo = text => {
+      const newTodos = [...todos, {
+        text,
+        // completed: false,
+        // editing: false
+      }];
+      if (!text) return;
+      setTodos(newTodos)
+      console.log(newTodos);
+    }
 
-  const removeTodo = index => {
-    const newTodos = [...todos]
-    newTodos.splice(index, 1)
-    setTodos(newTodos)
-    console.log(newTodos);
-  }
+    const removeTodo = index => {
+      const newTodos = [...todos]
+      newTodos.splice(index, 1)
+      setTodos(newTodos)
+      console.log(newTodos);
+    }
 
-  const completeTodo = index => {
-    const newTodos = [...todos]
-    newTodos[index].completed = !newTodos[index].completed
-    setTodos(newTodos)
-    console.log(newTodos);
-  }
+    // const completeTodo = index => {
+    //   const newTodos = [...todos]
+    //   newTodos[index].completed = !newTodos[index].completed
+    //   setTodos(newTodos)
+    //   console.log(newTodos);
+    // }
 
-  const editTodo = index => {
-    const newTodos = [...todos]
-    newTodos[index].editing = !newTodos[index].editing
-    setTodos(newTodos)
-    console.log(newTodos);
-  }
+    // const editTodo = index => {
+    //   const newTodos = [...todos]
+    //   newTodos[index].editing = !newTodos[index].editing
+    //   setTodos(newTodos)
+    //   console.log(newTodos);
+    // }
 
-  const handleToLoginPage = () => {
-    app.auth().signOut()
-    history.push("/login");
-  }
+    const handleToLoginPage = () => {
+      app.auth().signOut()
+      history.push("/login");
+    }
 
   return (
     <div className="App">
@@ -81,16 +81,16 @@ import "firebase/fire";
           <tbody>
             {todos && todos.map((todo, index) => (
               <tr key={index}>
-                {todo.editing ? <EditTodo index={index} todo={todo} text={todo.text} /> :
+                {/* {todo.editing ? <EditTodo index={index} todo={todo} text={todo.text} /> : */}
                 <td className="text-left ListItem">
-                  <span className="ml-2">
+                  {/* <span className="ml-2">
                     <Input type="checkbox" checked={todo.completed} onChange={() => completeTodo(index)} />
-                  </span>
+                  </span> */}
                   <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`} >
                     {todo.text}
                   </span>
                 </td>
-                  }
+                  {/* } */}
                 <td className="text-right">
                   <div className="icons">
                     <TwitterShareButton
@@ -100,11 +100,11 @@ import "firebase/fire";
                       className="" >
                       <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
                     </TwitterShareButton>
-                    <Icon
+                    {/* <Icon
                       icon={pencilAlt}
                       className="pencilIcon ml-4"
                       onClick={() => editTodo(index)}
-                    />
+                    /> */}
                     <button onClick={() => removeTodo(index)} className="trashButton ml-3">
                       <FontAwesomeIcon icon="trash" className="trashIcon" />
                     </button>
@@ -119,40 +119,40 @@ import "firebase/fire";
   );
 }
 
-function EditTodo(todo, text, index) {
-  const [value, setValue] = useState(todo.text);
-  const [todos, setTodos] = useState([]);
+// function EditTodo(todo, text, index) {
+//   const [value, setValue] = useState(todo.text);
+//   const [todos, setTodos] = useState([]);
 
-  const handleUpdateTodoText = e => {
-    if (e.which === 13) {
-      // e.preventDefault();
-      const newTodos = [...todos, {
-        text: value,
-        completed: false,
-        editing: false
-      }];
-      if (!text) return;
-      // if (todo.length === 0) {
-        setTodos(newTodos)
-        console.log(newTodos);
-        console.log("クリック");
-      // }
-    }
-  }
+//   const handleUpdateTodoText = e => {
+//     if (e.which === 13) {
+//       // e.preventDefault();
+//       const newTodos = [...todos, {
+//         text: value,
+//         completed: false,
+//         editing: false
+//       }];
+//       if (!text) return;
+//       // if (todo.length === 0) {
+//         setTodos(newTodos)
+//         console.log(newTodos);
+//         console.log("クリック");
+//       // }
+//     }
+//   }
 
-  return (
-    <td>
-      <InputGroup size="sm">
-        <Input
-          type="text"
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          className="editForm"
-          onKeyPress={e => handleUpdateTodoText(e)}
-        />
-      </InputGroup>
-    </td>
-  );
-}
+//   return (
+//     <td>
+//       <InputGroup size="sm">
+//         <Input
+//           type="text"
+//           value={value}
+//           onChange={e => setValue(e.target.value)}
+//           className="editForm"
+//           onKeyPress={e => handleUpdateTodoText(e)}
+//         />
+//       </InputGroup>
+//     </td>
+//   );
+// }
 
 export default App;
