@@ -15,22 +15,42 @@ import firebase from 'firebase';
     const [value, setValue] = useState("");
     const [todos, setTodos] = useState([]);
 
-    const handleSubmit = e => {
+    // useEffect(() => {
+    //   (async () => {
+    //     const resTodo = await db.collection("todoList").doc("todo").get();
+ 
+    //     setTodos(resTodo.data().tasks)
+    //   })()
+    // }, [db])
+    
+    const handleSubmit = e => {      
       e.preventDefault();
-      addTodo(value)
-      setValue("")
+      if (!value) return;
+
+      firebase
+        .firestore().collection("todoList").add({
+          value,
+        })
+        .then(() => {
+          setValue("")
+          setTodos([...todos, {text: value}])
+        })
+        
+      // e.preventDefault();
+      // addTodo(value)
+      // setValue("")
     }
 
-    const addTodo = text => {
-      const newTodos = [...todos, {
-        text,
-        // completed: false,
-        // editing: false
-      }];
-      if (!text) return;
-      setTodos(newTodos)
-      console.log(newTodos);
-    }
+    // const addTodo = async (value) => {
+    //   const newTodos = [...todos, {
+    //     text,
+    //     // completed: false,
+    //     // editing: false
+    //   }];
+    //   if (!value) return;
+    //   setTodos([...todos, {text: value}])
+    //   console.log(newTodos);
+    // }
 
     const removeTodo = index => {
       const newTodos = [...todos]
