@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, InputGroup, Input, InputGroupAddon, Button, Table } from "reactstrap";
+import { Container, Form, InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import { app } from '../base';
 import firebase from 'firebase';
 
@@ -14,17 +14,16 @@ const AddTodoEntryForm = ({ history }) => {
     if (!value) return;
 
     firebase
-      .firestore().collection("todoList").add({
+      .firestore()
+      .collection("TodoList")
+      .add({
         value,
       })
       .then(() => {
         setValue("")
         setTodos([...todos, {text: value}])
+        console.log(todos);
       })
-      
-    // e.preventDefault();
-    // addTodo(value)
-    // setValue("")
   }
 
   // const addTodo = async (value) => {
