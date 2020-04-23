@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import AddTodoEntryForm from './components/AddTodoEntryForm';
-import TodoList from './components/TodoList';
+// import TodoList from './components/TodoList';
+import firebase from 'firebase';
 
-  const App = () => {
+  function App() {
+    const [todos, setTodos] = useState([])
+    const [newText, setNewText] = useState()
 
-  return (
-    <div className="App">
-      <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
-      <AddTodoEntryForm />
-      <TodoList />
-    </div>
-  );
+    useEffect(() => {
+        const db = firebase.firestore()
+        const unsubscribe = db.collection("TodoList").onSnapshot((snapshot) => {
+          const todosData = []
+          snapshot.forEach(doc => todosData.push(({...doc.data(), id: doc.id})))
+          setTodos(todosData)
+        })
+
+        return unsubscribe
+    }, []);
+
+    const onCreate = () => {
+      const db = firebase.firestore()
+      db.collection("TodoList").add({text: newText})
+    }
+
+    return (
+      <div className="App">
+        <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
+        <ul>
+          <input value={newText} onChange={(e) => setNewText(e.target.value)} />
+          <button onClick={onCreate}>Create</button>
+          {todos.map(todo => (
+            <li key={todo.id}>
+              <AddTodoEntryForm todo={todo} />
+            </li>
+          ))}
+        </ul>
+        {/* <AddTodoEntryForm /> */}
+        {/* <TodoList /> */}
+      </div>
+    );
 }
 
 // function EditTodo(todo, text, index) {
