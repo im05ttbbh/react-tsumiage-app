@@ -4,7 +4,7 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Icon } from '@iconify/react';
 import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
 import { TwitterShareButton } from 'react-share';
-import { Input, Table } from "reactstrap";
+import { Input } from "reactstrap";
 import firebase from 'firebase';
 
 export const TodoList = ({ todo }) => {
@@ -16,7 +16,7 @@ export const TodoList = ({ todo }) => {
   //   db.collection("TodoList").doc(todo.id).set({...todo, text})
   // }
 
-  const onDelete = (e) => {
+  const onDelete = e => {
     e.preventDefault()
     const db = firebase.firestore()
     db.collection("TodoList").doc(todo.id).delete()
@@ -52,15 +52,6 @@ export const TodoList = ({ todo }) => {
         </div>
       </td>
     </tr>
-
-        // <div>
-    //   <input 
-    //     value={text} 
-    //     onChange={(e) => {setText(e.target.value)}} 
-    //   />
-    //   <button onClick={onUpdate}>Update</button>
-    //   <button onClick={onDelete}>Delete</button>
-    // </div>
   )
 }
 

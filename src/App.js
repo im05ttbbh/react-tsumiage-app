@@ -26,7 +26,9 @@ import TodoList from './components/TodoList';
       if (!newText) return;
       setNewText("")
       const db = firebase.firestore()
-      db.collection("TodoList").add({text: newText})
+      db.collection("TodoList").add({
+        text: newText,
+      })
     }
 
     return (
