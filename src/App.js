@@ -28,6 +28,7 @@ import TodoList from './components/TodoList';
       const db = firebase.firestore()
       db.collection("TodoList").add({
         text: newText,
+        completed: false
       })
     }
 
@@ -48,7 +49,7 @@ import TodoList from './components/TodoList';
           <Table responsive>
             <tbody>
               {todos.map(todo => (
-                <TodoList todo={todo} />
+                <TodoList todo={todo} key={todo.id} />
               ))}
             </tbody>
           </Table> 
@@ -72,8 +73,6 @@ import TodoList from './components/TodoList';
 //       if (!text) return;
 //       // if (todo.length === 0) {
 //         setTodos(newTodos)
-//         console.log(newTodos);
-//         console.log("クリック");
 //       // }
 //     }
 //   }

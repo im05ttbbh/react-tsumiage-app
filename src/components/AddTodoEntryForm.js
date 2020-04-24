@@ -71,20 +71,6 @@ export default AddTodoEntryForm;
 //   //   console.log(newTodos);
 //   // }
 
-//   // const removeTodo = index => {
-//   //   const newTodos = [...todos]
-//   //   newTodos.splice(index, 1)
-//   //   setTodos(newTodos)
-//   //   console.log(newTodos);
-//   // }
-
-//   // const completeTodo = index => {
-//   //   const newTodos = [...todos]
-//   //   newTodos[index].completed = !newTodos[index].completed
-//   //   setTodos(newTodos)
-//   //   console.log(newTodos);
-//   // }
-
 //   // const editTodo = index => {
 //   //   const newTodos = [...todos]
 //   //   newTodos[index].editing = !newTodos[index].editing
