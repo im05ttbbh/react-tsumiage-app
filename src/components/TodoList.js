@@ -1,23 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Icon } from '@iconify/react';
 import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
 import { TwitterShareButton } from 'react-share';
-import { Input } from "reactstrap";
+import { InputGroup, Input, Form } from "reactstrap";
 import firebase from 'firebase';
 
 export const TodoList = ({ todo }) => {
-  // const [text, setText] = useState(todo.text);
+  const [editText, setEditText] = useState(todo.text);
 
-  // const onUpdate = e => {
-  //   e.preventDefault()
-  //   const db = firebase.firestore()
-  //   db.collection("TodoList").doc(todo.id).set({...todo, text})
-  // }
+  const onEditing = () => {
+    const db = firebase.firestore()
+    db.collection("TodoList").doc(todo.id).update({editing: !todo.editing})
+  }
 
-  const onDelete = e => {
+  const onUpdate = e => {
     e.preventDefault()
+    const db = firebase.firestore()
+    db.collection("TodoList").doc(todo.id).update({
+      ...todo, 
+      text: editText, 
+      editing: !todo.editing
+    })
+  }
+
+  const onDelete = () => {
     const db = firebase.firestore()
     db.collection("TodoList").doc(todo.id).delete()
   }
@@ -29,15 +37,30 @@ export const TodoList = ({ todo }) => {
 
   return (
     <tr key={todo.id}>
-      <td className="text-left ListItem">
-        <span className="ml-2">
-          <Input type="checkbox" onChange={onCompleted} />
-        </span>
-        <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`}>
-          {todo.text}
-          {/* <AddTodoEntryForm todo={todo} /> */}
-        </span>
-      </td>
+      {todo.editing ? 
+        <td>
+          <Form>
+          <InputGroup size="sm">
+            <Input
+              type="text"
+              value={editText}
+              onChange={e => setEditText(e.target.value)}
+              className="editForm"
+            />
+            <button type="submit" color="info" onClick={e => onUpdate(e)}>編集</button>
+          </InputGroup>
+          </Form>
+        </td>
+        :
+        <td className="text-left ListItem">
+          <span className="ml-2">
+            <Input type="checkbox" onChange={onCompleted} />
+          </span>
+          <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`}>
+            {todo.text}
+          </span>
+        </td>
+      }
       <td className="text-right">
         <div className="icons">
           <TwitterShareButton
@@ -50,6 +73,7 @@ export const TodoList = ({ todo }) => {
           <Icon
             icon={pencilAlt}
             className="pencilIcon ml-4"
+            onClick={onEditing}
           />
           <button onClick={onDelete} className="trashButton ml-3">
             <FontAwesomeIcon icon="trash" className="trashIcon" />
@@ -61,88 +85,3 @@ export const TodoList = ({ todo }) => {
 }
 
 export default TodoList;
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faTwitter } from '@fortawesome/free-brands-svg-icons'
-// // import { Icon } from '@iconify/react';
-// // import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
-// import { TwitterShareButton } from 'react-share';
-// import '../App.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Container, Table } from "reactstrap";
-// // import { Container, Form, InputGroup, Input, InputGroupAddon, Button, Table } from "reactstrap";
-// import { app } from '../base';
-// import firebase from 'firebase';
-
-//   function useTodoList() {
-//     const [todos, setTodos] = useState([])
-
-//     useEffect(() => {    
-//       const DataList = firebase
-//         .firestore()
-//         .collection("TodoList")
-//         .onSnapshot((snapshot) => {
-//           const newTodos = snapshot.docs.map((doc) => ({
-//             id: doc.id,
-//             ...doc.data()
-//           }))
-
-//           setTodos(newTodos)
-//         })
-
-//       return () => DataList()
-//     }, [])
-
-//     return todos
-//   }
-
-//   const TodoList = () => {
-//     const todos = useTodoList()
-
-//     return (
-//       <Container>
-//         <Table responsive>
-//           <tbody>
-//             {todos && todos.map((todo) => (
-//               <tr key={todo.id}>
-//                 {/* {todo.editing ? <EditTodo index={index} todo={todo} text={todo.text} /> : */}
-//                 <td className="text-left ListItem">
-//                   {/* <span className="ml-2">
-//                     <Input type="checkbox" checked={todo.completed} onChange={() => completeTodo(index)} />
-//                   </span> */}
-//                   <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`} >
-//                     {todo.text}
-//                   </span>
-//                 </td>
-//                   {/* } */}
-//                 <td className="text-right">
-//                   <div className="icons">
-//                     <TwitterShareButton
-//                       url="dum"
-//                       title={todo.text}
-//                       hashtags={["今日の積み上げ"]}
-//                       className="" >
-//                       <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
-//                     </TwitterShareButton>
-//                     {/* <Icon
-//                       icon={pencilAlt}
-//                       className="pencilIcon ml-4"
-//                       onClick={() => editTodo(index)}
-//                     /> */}
-//                     {/* <button onClick={() => removeTodo()} className="trashButton ml-3">
-//                       <FontAwesomeIcon icon="trash" className="trashIcon" />
-//                     </button> */}
-//                   </div>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </Table>
-//       </Container>
-//     )
-//   }
-
-// export default TodoList;
