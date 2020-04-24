@@ -7,7 +7,7 @@ import { TwitterShareButton } from 'react-share';
 import { Input, Table } from "reactstrap";
 import firebase from 'firebase';
 
-export const TodoList = ({ todos }) => {
+export const TodoList = ({ todo }) => {
   // const [text, setText] = useState(todo.text);
 
   // const onUpdate = e => {
@@ -18,48 +18,42 @@ export const TodoList = ({ todos }) => {
 
   const onDelete = (e) => {
     e.preventDefault()
-    console.log(todos);
     const db = firebase.firestore()
-    db.collection("TodoList").doc().delete()
+    db.collection("TodoList").doc(todo.id).delete()
   }
 
   return (
-    <Table responsive>
-      <tbody>
-        {todos.map(todo => (
-          <tr key={todo.id}>
-            <td className="text-left ListItem">
-              <span className="ml-2">
-                <Input type="checkbox" />
-              </span>
-              <span className="ml-2 todoScript">
-                {todo.text}
-                {/* <AddTodoEntryForm todo={todo} /> */}
-              </span>
-            </td>
-            <td className="text-right">
-              <div className="icons">
-                <TwitterShareButton
-                  url="dum"
-                  title={todo.text}
-                  hashtags={["今日の積み上げ"]}
-                  className="" >
-                  <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
-                </TwitterShareButton>
-                <Icon
-                  icon={pencilAlt}
-                  className="pencilIcon ml-4"
-                />
-                <button onClick={onDelete} className="trashButton ml-3">
-                  <FontAwesomeIcon icon="trash" className="trashIcon" />
-                </button>
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-    // <div>
+    <tr key={todo.id}>
+      <td className="text-left ListItem">
+        <span className="ml-2">
+          <Input type="checkbox" />
+        </span>
+        <span className="ml-2 todoScript">
+          {todo.text}
+          {/* <AddTodoEntryForm todo={todo} /> */}
+        </span>
+      </td>
+      <td className="text-right">
+        <div className="icons">
+          <TwitterShareButton
+            url="dum"
+            title={todo.text}
+            hashtags={["今日の積み上げ"]}
+            className="" >
+            <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
+          </TwitterShareButton>
+          <Icon
+            icon={pencilAlt}
+            className="pencilIcon ml-4"
+          />
+          <button onClick={onDelete} className="trashButton ml-3">
+            <FontAwesomeIcon icon="trash" className="trashIcon" />
+          </button>
+        </div>
+      </td>
+    </tr>
+
+        // <div>
     //   <input 
     //     value={text} 
     //     onChange={(e) => {setText(e.target.value)}} 

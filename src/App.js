@@ -3,7 +3,7 @@ import './App.css';
 import AddTodoEntryForm from './components/AddTodoEntryForm';
 import firebase from 'firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, InputGroup, Input, Button } from "reactstrap";
+import { Container, Form, InputGroup, Input, Button, Table } from "reactstrap";
 import TodoList from './components/TodoList';
 
   function App() {
@@ -43,7 +43,13 @@ import TodoList from './components/TodoList';
                 <Button type="submit" color="info" onClick={onCreate}>追加</Button>
             </InputGroup>
           </Form>
-          <TodoList todos={todos} id={todos.id} />
+          <Table responsive>
+            <tbody>
+              {todos.map(todo => (
+                <TodoList todo={todo} />
+              ))}
+            </tbody>
+          </Table> 
         </Container>
       </div>
     );
