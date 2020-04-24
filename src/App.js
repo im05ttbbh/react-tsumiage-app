@@ -4,8 +4,10 @@ import firebase from 'firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Form, InputGroup, Input, Button, Table } from "reactstrap";
 import TodoList from './components/TodoList';
+import { app } from './base';
+import { withRouter } from 'react-router';
 
-  function App() {
+  const App = ({ history }) => {
     const [todos, setTodos] = useState([])
     const [newText, setNewText] = useState("")
 
@@ -32,11 +34,16 @@ import TodoList from './components/TodoList';
       })
     }
 
+    const handleToLoginPage = () => {
+      app.auth().signOut()
+      history.push("/login");
+    }
+
     return (
       <div className="App">
         <Container>
           <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
-          {/* <Button onClick={handleToLoginPage}>Sign out</Button> */}
+          <Button onClick={handleToLoginPage}>Sign out</Button>
           <Form>
             <InputGroup>
               <Input
@@ -58,4 +65,4 @@ import TodoList from './components/TodoList';
     );
 }
 
-export default App;
+export default withRouter(App);
