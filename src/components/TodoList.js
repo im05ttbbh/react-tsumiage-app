@@ -22,13 +22,18 @@ export const TodoList = ({ todo }) => {
     db.collection("TodoList").doc(todo.id).delete()
   }
 
+  const onCompleted = () => {
+    const db = firebase.firestore()
+    db.collection("TodoList").doc(todo.id).update({completed: !todo.completed})
+  }
+
   return (
     <tr key={todo.id}>
       <td className="text-left ListItem">
         <span className="ml-2">
-          <Input type="checkbox" />
+          <Input type="checkbox" onChange={onCompleted} />
         </span>
-        <span className="ml-2 todoScript">
+        <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`}>
           {todo.text}
           {/* <AddTodoEntryForm todo={todo} /> */}
         </span>
