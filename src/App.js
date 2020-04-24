@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import AddTodoEntryForm from './components/AddTodoEntryForm';
 import firebase from 'firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Form, InputGroup, Input, Button, Table } from "reactstrap";
@@ -28,7 +27,8 @@ import TodoList from './components/TodoList';
       const db = firebase.firestore()
       db.collection("TodoList").add({
         text: newText,
-        completed: false
+        completed: false,
+        editing: false
       })
     }
 
@@ -43,7 +43,7 @@ import TodoList from './components/TodoList';
                 value={newText}
                 onChange={e => setNewText(e.target.value)}
               />
-                <Button type="submit" color="info" onClick={onCreate}>追加</Button>
+              <Button type="submit" color="info" onClick={onCreate}>追加</Button>
             </InputGroup>
           </Form>
           <Table responsive>
@@ -57,39 +57,5 @@ import TodoList from './components/TodoList';
       </div>
     );
 }
-
-// function EditTodo(todo, text, index) {
-//   const [value, setValue] = useState(todo.text);
-//   const [todos, setTodos] = useState([]);
-
-//   const handleUpdateTodoText = e => {
-//     if (e.which === 13) {
-//       // e.preventDefault();
-//       const newTodos = [...todos, {
-//         text: value,
-//         completed: false,
-//         editing: false
-//       }];
-//       if (!text) return;
-//       // if (todo.length === 0) {
-//         setTodos(newTodos)
-//       // }
-//     }
-//   }
-
-//   return (
-//     <td>
-//       <InputGroup size="sm">
-//         <Input
-//           type="text"
-//           value={value}
-//           onChange={e => setValue(e.target.value)}
-//           className="editForm"
-//           onKeyPress={e => handleUpdateTodoText(e)}
-//         />
-//       </InputGroup>
-//     </td>
-//   );
-// }
 
 export default App;
