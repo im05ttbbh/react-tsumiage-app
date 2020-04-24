@@ -1,43 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import AddTodoEntryForm from './components/AddTodoEntryForm';
-// import TodoList from './components/TodoList';
 import firebase from 'firebase';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Form, InputGroup, Input, Button } from "reactstrap";
+import TodoList from './components/TodoList';
 
   function App() {
     const [todos, setTodos] = useState([])
-    const [newText, setNewText] = useState()
+    const [newText, setNewText] = useState("")
 
     useEffect(() => {
         const db = firebase.firestore()
-        const unsubscribe = db.collection("TodoList").onSnapshot((snapshot) => {
+        const fetchData = db.collection("TodoList").onSnapshot((snapshot) => {
           const todosData = []
           snapshot.forEach(doc => todosData.push(({...doc.data(), id: doc.id})))
           setTodos(todosData)
         })
 
-        return unsubscribe
+        return fetchData
     }, []);
 
-    const onCreate = () => {
+    const onCreate = e => {
+      e.preventDefault()
+      if (!newText) return;
+      setNewText("")
       const db = firebase.firestore()
       db.collection("TodoList").add({text: newText})
     }
 
     return (
       <div className="App">
-        <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
-        <ul>
-          <input value={newText} onChange={(e) => setNewText(e.target.value)} />
-          <button onClick={onCreate}>Create</button>
-          {todos.map(todo => (
-            <li key={todo.id}>
-              <AddTodoEntryForm todo={todo} />
-            </li>
-          ))}
-        </ul>
-        {/* <AddTodoEntryForm /> */}
-        {/* <TodoList /> */}
+        <Container>
+          <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
+          {/* <Button onClick={handleToLoginPage}>Sign out</Button> */}
+          <Form>
+            <InputGroup>
+              <Input
+                value={newText}
+                onChange={e => setNewText(e.target.value)}
+              />
+                <Button type="submit" color="info" onClick={onCreate}>追加</Button>
+            </InputGroup>
+          </Form>
+          <TodoList todos={todos} id={todos.id} />
+        </Container>
       </div>
     );
 }

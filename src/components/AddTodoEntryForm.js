@@ -4,12 +4,14 @@ import firebase from 'firebase';
 export const AddTodoEntryForm = ({ todo }) => {
   const [text, setText] = useState(todo.text);
   
-  const onUpdate = () => {
+  const onUpdate = e => {
+    e.preventDefault()
     const db = firebase.firestore()
     db.collection("TodoList").doc(todo.id).set({...todo, text})
   }
 
-  const onDelete = () => {
+  const onDelete = e => {
+    e.preventDefault()
     const db = firebase.firestore()
     db.collection("TodoList").doc(todo.id).delete()
   }
