@@ -1,142 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, InputGroup, Input, InputGroupAddon, Button, Table } from "reactstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons'
-import { Icon } from '@iconify/react';
-import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
-import { TwitterShareButton } from 'react-share';
-import { app } from './base';
+import AddTodoEntryForm from './components/AddTodoEntryForm';
 import firebase from 'firebase';
-// import "firebase/fire";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Form, InputGroup, Input, Button, Table } from "reactstrap";
+import TodoList from './components/TodoList';
 
-  const App = ({ history }) => {
-    const [value, setValue] = useState("");
-    const [todos, setTodos] = useState([]);
+  function App() {
+    const [todos, setTodos] = useState([])
+    const [newText, setNewText] = useState("")
 
-    // useEffect(() => {
-    //   (async () => {
-    //     const resTodo = await db.collection("todoList").doc("todo").get();
- 
-    //     setTodos(resTodo.data().tasks)
-    //   })()
-    // }, [db])
-    
-    const handleSubmit = e => {      
-      e.preventDefault();
-      if (!value) return;
-
-      firebase
-        .firestore().collection("todoList").add({
-          value,
+    useEffect(() => {
+        const db = firebase.firestore()
+        const fetchData = db.collection("TodoList").onSnapshot((snapshot) => {
+          const todosData = []
+          snapshot.forEach(doc => todosData.push(({...doc.data(), id: doc.id})))
+          setTodos(todosData)
         })
-        .then(() => {
-          setValue("")
-          setTodos([...todos, {text: value}])
-        })
-        
-      // e.preventDefault();
-      // addTodo(value)
-      // setValue("")
+
+        return fetchData
+    }, []);
+
+    const onCreate = e => {
+      e.preventDefault()
+      if (!newText) return;
+      setNewText("")
+      const db = firebase.firestore()
+      db.collection("TodoList").add({text: newText})
     }
 
-    // const addTodo = async (value) => {
-    //   const newTodos = [...todos, {
-    //     text,
-    //     // completed: false,
-    //     // editing: false
-    //   }];
-    //   if (!value) return;
-    //   setTodos([...todos, {text: value}])
-    //   console.log(newTodos);
-    // }
-
-    const removeTodo = index => {
-      const newTodos = [...todos]
-      newTodos.splice(index, 1)
-      setTodos(newTodos)
-      console.log(newTodos);
-    }
-
-    // const completeTodo = index => {
-    //   const newTodos = [...todos]
-    //   newTodos[index].completed = !newTodos[index].completed
-    //   setTodos(newTodos)
-    //   console.log(newTodos);
-    // }
-
-    // const editTodo = index => {
-    //   const newTodos = [...todos]
-    //   newTodos[index].editing = !newTodos[index].editing
-    //   setTodos(newTodos)
-    //   console.log(newTodos);
-    // }
-
-    const handleToLoginPage = () => {
-      app.auth().signOut()
-      history.push("/login");
-    }
-
-  return (
-    <div className="App">
-      <Container>
-        <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
-        <Button onClick={handleToLoginPage}>Sign out</Button>
-        <Form onSubmit={handleSubmit}>
-          <InputGroup>
-            <Input
-              type="text"
-              value={value}
-              onChange={e => setValue(e.target.value)}
-            />
-            <InputGroupAddon addonType="append">
-              <Button type="submit" color="info">追加</Button>
-            </InputGroupAddon>
-          </InputGroup>
-        </Form>
-      </Container>
-      <Container>
-        <Table responsive>
-          <tbody>
-            {todos && todos.map((todo, index) => (
-              <tr key={index}>
-                {/* {todo.editing ? <EditTodo index={index} todo={todo} text={todo.text} /> : */}
-                <td className="text-left ListItem">
-                  {/* <span className="ml-2">
-                    <Input type="checkbox" checked={todo.completed} onChange={() => completeTodo(index)} />
-                  </span> */}
-                  <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`} >
-                    {todo.text}
-                  </span>
-                </td>
-                  {/* } */}
-                <td className="text-right">
-                  <div className="icons">
-                    <TwitterShareButton
-                      url="dum"
-                      title={todo.text}
-                      hashtags={["今日の積み上げ"]}
-                      className="" >
-                      <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
-                    </TwitterShareButton>
-                    {/* <Icon
-                      icon={pencilAlt}
-                      className="pencilIcon ml-4"
-                      onClick={() => editTodo(index)}
-                    /> */}
-                    <button onClick={() => removeTodo(index)} className="trashButton ml-3">
-                      <FontAwesomeIcon icon="trash" className="trashIcon" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Container>
-    </div>
-  );
+    return (
+      <div className="App">
+        <Container>
+          <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
+          {/* <Button onClick={handleToLoginPage}>Sign out</Button> */}
+          <Form>
+            <InputGroup>
+              <Input
+                value={newText}
+                onChange={e => setNewText(e.target.value)}
+              />
+                <Button type="submit" color="info" onClick={onCreate}>追加</Button>
+            </InputGroup>
+          </Form>
+          <Table responsive>
+            <tbody>
+              {todos.map(todo => (
+                <TodoList todo={todo} />
+              ))}
+            </tbody>
+          </Table> 
+        </Container>
+      </div>
+    );
 }
 
 // function EditTodo(todo, text, index) {
