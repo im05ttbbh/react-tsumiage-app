@@ -13,10 +13,13 @@ import { withRouter } from 'react-router';
 
     useEffect(() => {
         const db = firebase.firestore()
-        const fetchData = db.collection("TodoList").onSnapshot((snapshot) => {
-          const todosData = []
-          snapshot.forEach(doc => todosData.push(({...doc.data(), id: doc.id})))
-          setTodos(todosData)
+        const fetchData = db
+          .collection("TodoList")
+          .orderBy("createdAt", "asc")
+          .onSnapshot((snapshot) => {
+            const todosData = []
+            snapshot.forEach(doc => todosData.push(({...doc.data(), id: doc.id})))
+            setTodos(todosData)
         })
 
         return fetchData
@@ -30,8 +33,10 @@ import { withRouter } from 'react-router';
       db.collection("TodoList").add({
         text: newText,
         completed: false,
-        editing: false
+        editing: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
+      console.log(todos);
     }
 
     const handleToLoginPage = () => {

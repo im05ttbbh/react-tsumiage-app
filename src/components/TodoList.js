@@ -37,7 +37,7 @@ export const TodoList = ({ todo }) => {
 
   return (
     <tr key={todo.id}>
-      {todo.editing ? 
+      {todo.editing ? // Trueで編集フォーム
         <td>
           <Form>
           <InputGroup size="sm">
