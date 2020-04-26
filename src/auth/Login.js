@@ -11,6 +11,13 @@ const Login = ({ history }) => {
     login(email.value, password.value, history);
   }
 
+  const handleGuestLogin = e => {
+    e.preventDefault();
+    const email = "practice.rails@gmail.com"
+    const password = "testtesttest"
+    login(email, password, history);
+  }
+
   const handleToSignUpPage = () => {
     history.push("/signup");
   }
@@ -29,6 +36,7 @@ const Login = ({ history }) => {
         </label>
         <button type="submit">Log in</button>
         <button onClick={handleToSignUpPage}>Sign up</button>
+        <button onClick={handleGuestLogin}>テストユーザー</button>
       </form>
     </div>
   )
