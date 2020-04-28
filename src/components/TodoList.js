@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import '../App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Icon } from '@iconify/react';
@@ -66,13 +67,17 @@ export const TodoList = ({ todo }) => {
             disableRipple
             type="checkbox"
             style ={{
-              color: "#00e676",
+              color: "#f48fb1",
             }}
             checked={todo.completed}
             onChange={(e) => onCompleted(e)}
             />
         </ListItemIcon>
-        <ListItemText primary={`${todo.text}`} />
+        <ListItemText
+           disableTypography 
+           primary={todo.text} 
+           className={`mb-1 todoScript + ${todo.completed ? "done" : ""}`}
+         />
         {/* <td className="text-right">
           <div className="icons">
             <TwitterShareButton
