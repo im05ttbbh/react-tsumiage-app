@@ -29,21 +29,21 @@
 }
 
 .trashButton {
-  background-color: #282c34;
+  background-color: #34414f;
   border: 1px solid transparent;
 }
 
 .trashIcon {
   color: orange;
-  font-size: 23px;
+  font-size: 20px;
 }
 
 .twitterIcon {
-  font-size: 26px;
+  font-size: 23px;
   color: aqua;
 }
 
 .pencilIcon {
-  font-size: 24px;
+  font-size: 22px;
   color: white;
 }
