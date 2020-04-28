@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, InputGroup, Input, Button, Table } from "reactstrap";
+import { Form, InputGroup, Input, Button, Table } from "reactstrap";
 import TodoList from './components/TodoList';
 import { app } from './base';
 import { withRouter } from 'react-router';
+import Container from '@material-ui/core/Container';
 
   const App = ({ history }) => {
     const [todos, setTodos] = useState([])
@@ -46,7 +47,7 @@ import { withRouter } from 'react-router';
 
     return (
       <div className="App">
-        <Container>
+        <Container maxWidth="sm">
           <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
           <Button onClick={handleToLoginPage}>Sign out</Button>
           <Form>
