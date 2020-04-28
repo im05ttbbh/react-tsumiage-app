@@ -59,13 +59,16 @@ import Container from '@material-ui/core/Container';
               <Button type="submit" color="info" onClick={onCreate}>追加</Button>
             </InputGroup>
           </Form>
-          <Table responsive>
+              {todos.map(todo => (
+                <TodoList todo={todo} key={todo.id} completed={todo.completed} />
+              ))}
+          {/* <Table responsive>
             <tbody>
               {todos.map(todo => (
                 <TodoList todo={todo} key={todo.id} completed={todo.completed} />
               ))}
             </tbody>
-          </Table> 
+          </Table>  */}
         </Container>
       </div>
     );
