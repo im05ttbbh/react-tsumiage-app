@@ -61,7 +61,7 @@ import { withRouter } from 'react-router';
           <Table responsive>
             <tbody>
               {todos.map(todo => (
-                <TodoList todo={todo} key={todo.id} />
+                <TodoList todo={todo} key={todo.id} completed={todo.completed} />
               ))}
             </tbody>
           </Table> 

@@ -10,6 +10,7 @@
 
 .todoScript {
   font-weight: bold;
+  user-select: none;
 }
 
 .editForm {

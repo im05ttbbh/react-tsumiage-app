@@ -6,6 +6,7 @@ import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
 import { TwitterShareButton } from 'react-share';
 import { InputGroup, Input, Form } from "reactstrap";
 import firebase from 'firebase';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export const TodoList = ({ todo }) => {
   const [editText, setEditText] = useState(todo.text);
@@ -53,12 +54,19 @@ export const TodoList = ({ todo }) => {
         </td>
         :
         <td className="text-left ListItem">
-          <span className="ml-2">
-            <Input type="checkbox" onChange={onCompleted} />
-          </span>
-          <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`}>
-            {todo.text}
-          </span>
+          <label>
+            <span className="ml-2">
+              <Checkbox
+                type="checkbox"
+                color="primary"
+                checked={todo.completed}
+                onChange={(e) => onCompleted(e)}
+               />
+            </span>
+            <span className={`ml-2 todoScript + ${todo.completed ? "done" : ""}`}>
+              {todo.text}
+            </span>
+          </label>
         </td>
       }
       <td className="text-right">
