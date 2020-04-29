@@ -14,6 +14,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,6 +26,11 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#34414f",
     borderRadius: "5px",
     // backgroundColor: theme.palette.background.paper,
+  },
+  textFieldColor: {
+    color: "#61dafb",
+    fontWeight: "bold",
+    fontSize: "large"
   },
 }));
 
@@ -58,42 +66,45 @@ export const TodoList = ({ todo }) => {
 
   return (
     <List className={classes.root}>
-      <ListItem key={todo.id} dense button onClick={(e) => onCompleted(e)}>
+      <ListItem 
+        key={todo.id} 
+        dense
+        button
+        onClick={(e) => onCompleted(e)} // editingのときは発火させないようにする
+      >
         <ListItemIcon>
           <Checkbox
             edge="start"
-            disableRipple
             type="checkbox"
+            checked={todo.completed}
             style ={{
               color: "#f48fb1",
             }}
-            checked={todo.completed}
             />
         </ListItemIcon>
+      {todo.editing ? // Trueで編集フィールド表示
+        <TextField
+          style={{
+            marginLeft: "-20px",
+          }}
+          InputProps={{
+            className: classes.textFieldColor,
+            startAdornment: (
+              <InputAdornment position="start">
+                <AccountCircle onClick={e => onUpdate(e)} />
+              </InputAdornment>
+            ),
+          }}
+          value={editText}
+          onChange={e => setEditText(e.target.value)}
+        />
+        :
         <ListItemText
            disableTypography 
            primary={todo.text} 
-           className={`mb-2 todoScript + ${todo.completed ? "done" : ""}`}
+           className={`todoScript + ${todo.completed ? "done" : ""}`}
          />
-        {/* <td className="text-right">
-          <div className="icons">
-            <TwitterShareButton
-              url="dum"
-              title={todo.text}
-              hashtags={["今日の積み上げ"]}
-              className="" >
-              <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
-            </TwitterShareButton>
-            <Icon
-              icon={pencilAlt}
-              className="pencilIcon ml-4"
-              onClick={onEditing}
-            />
-            <button onClick={onDelete} className="trashButton ml-3">
-              <FontAwesomeIcon icon="trash" className="trashIcon" />
-            </button>
-          </div>
-        </td> */}
+     }
         <ListItemSecondaryAction>
           <TwitterShareButton
               url="dum"
