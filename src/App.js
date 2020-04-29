@@ -2,30 +2,69 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, InputGroup, Input, Button, Table } from "reactstrap";
+import { Button } from "reactstrap";
 import TodoList from './components/TodoList';
 import { app } from './base';
 import { withRouter } from 'react-router';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import FormGroup from '@material-ui/core/FormGroup';
 
-  const App = ({ history }) => {
-    const [todos, setTodos] = useState([])
-    const [newText, setNewText] = useState("")
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& label': {
+      color: "#aaa",
+    },
+    '& label.Mui-focused': {
+      color: '#61dafb',
+    },
+    '& .MuiInput-underline:before': {
+      borderBottomColor: '#aaa',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#61dafb',
+    },
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '47ch',
+    },
+  },
+  inputText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: "large",
+  },
+  addIcon: {
+    width: "30px",
+    fontSize: "xx-large",
+    marginTop: "25px",
+    marginRight: "-1px",
+  }
+}));
 
-    useEffect(() => {
-        const db = firebase.firestore()
-        const fetchData = db
-          .collection("TodoList")
-          .orderBy("createdAt", "asc")
-          .onSnapshot((snapshot) => {
-            const todosData = []
-            snapshot.forEach(doc => todosData.push(({...doc.data(), id: doc.id})))
-            setTodos(todosData)
-        })
+const App = ({ history }) => {
+  const [todos, setTodos] = useState([])
+  const [newText, setNewText] = useState("")
+  const classes = useStyles();
 
-        return fetchData
-    }, []);
+  useEffect(() => {
+      const db = firebase.firestore()
+      const fetchData = db
+        .collection("TodoList")
+        .orderBy("createdAt", "asc")
+        .onSnapshot((snapshot) => {
+          const todosData = []
+          snapshot.forEach(doc => todosData.push(({...doc.data(), id: doc.id})))
+          setTodos(todosData)
+      })
 
-    const onCreate = e => {
+      return fetchData
+  }, []);
+
+  const onEnterCreate = e => {
+    if (e.key === "Enter") {
       e.preventDefault()
       if (!newText) return;
       setNewText("")
@@ -38,36 +77,52 @@ import { withRouter } from 'react-router';
       })
       console.log(todos);
     }
+  }
 
-    const handleToLoginPage = () => {
-      app.auth().signOut()
-      history.push("/login");
-    }
+  const onCreate = e => {
+    e.preventDefault()
+    if (!newText) return;
+    setNewText("")
+    const db = firebase.firestore()
+    db.collection("TodoList").add({
+      text: newText,
+      completed: false,
+      editing: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+    console.log(todos);
+  }
 
-    return (
-      <div className="App">
-        <Container>
-          <h2 className="mt-4 mb-4">#今日の積み上げ</h2>
-          <Button onClick={handleToLoginPage}>Sign out</Button>
-          <Form>
-            <InputGroup>
-              <Input
-                value={newText}
-                onChange={e => setNewText(e.target.value)}
-              />
-              <Button type="submit" color="info" onClick={onCreate}>追加</Button>
-            </InputGroup>
-          </Form>
-          <Table responsive>
-            <tbody>
-              {todos.map(todo => (
-                <TodoList todo={todo} key={todo.id} />
-              ))}
-            </tbody>
-          </Table> 
-        </Container>
-      </div>
-    );
+  const handleToLoginPage = () => {
+    app.auth().signOut()
+    history.push("/login");
+  }
+
+  return (
+    <div className="App">            
+    <Button onClick={handleToLoginPage}>Sign out</Button>
+      <Container maxWidth="sm">
+        <FormGroup>
+          <form className={classes.root} noValidate autoComplete="off">
+          <AddBoxIcon className={classes.addIcon} onClick={e => onCreate(e)}/>
+            <TextField
+              value={newText}
+              onChange={e => setNewText(e.target.value)}
+              onKeyPress={e => onEnterCreate(e)}
+              id="standard-secondary"
+              label="新規タスクを入力"
+              InputProps={{
+                className: classes.inputText,
+              }}
+            />
+          </form>
+        </FormGroup>
+        {todos.map(todo => (
+          <TodoList todo={todo} key={todo.id} completed={todo.completed} />
+        ))}
+      </Container>
+    </div>
+  );
 }
 
 export default withRouter(App);

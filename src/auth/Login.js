@@ -13,8 +13,8 @@ const Login = ({ history }) => {
 
   const handleGuestLogin = e => {
     e.preventDefault();
-    const email = "practice.rails@gmail.com"
-    const password = "testtesttest"
+    const email = "guest@example.com"
+    const password = "testtesttesttest"
     login(email, password, history);
   }
 
