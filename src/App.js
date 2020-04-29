@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
     width: "30px",
     fontSize: "xx-large",
     marginTop: "25px",
-    marginRight: "-1px",
   }
 }));
 
