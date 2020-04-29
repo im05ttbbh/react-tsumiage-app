@@ -16,7 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -58,8 +58,10 @@ export const TodoList = ({ todo }) => {
   }
 
   const onCompleted = () => {
-    const db = firebase.firestore()
-    db.collection("TodoList").doc(todo.id).update({completed: !todo.completed})
+    if (todo.editing === false) {
+      const db = firebase.firestore()
+      db.collection("TodoList").doc(todo.id).update({completed: !todo.completed})  
+    }
   }
 
   const classes = useStyles();
@@ -70,7 +72,7 @@ export const TodoList = ({ todo }) => {
         key={todo.id} 
         dense
         button
-        onClick={(e) => onCompleted(e)} // editingのときは発火させないようにする
+        onClick={(e) => onCompleted(e)}
       >
         <ListItemIcon>
           <Checkbox
@@ -91,7 +93,7 @@ export const TodoList = ({ todo }) => {
             className: classes.textFieldColor,
             startAdornment: (
               <InputAdornment position="start">
-                <AccountCircle onClick={e => onUpdate(e)} />
+                <AutorenewIcon onClick={e => onUpdate(e)} />
               </InputAdornment>
             ),
           }}
