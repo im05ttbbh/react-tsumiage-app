@@ -26,18 +26,30 @@ const useStyles = makeStyles(() => ({
     // backgroundColor: theme.palette.background.paper,
   },
   textFieldColor: {
+    opacity: "0.9",
     color: "#61dafb",
     fontWeight: "bold",
-    fontSize: "large"
+    fontSize: "large",
+    marginLeft: "-20px",
   },
 }));
 
 export const TodoList = ({ todo }) => {
   const [editText, setEditText] = useState(todo.text);
+  const classes = useStyles();
 
   const onEditing = () => {
     const db = firebase.firestore()
     db.collection("TodoList").doc(todo.id).update({editing: !todo.editing})
+  }
+
+  const setEnterEdit = () => {
+    const db = firebase.firestore()
+    db.collection("TodoList").doc(todo.id).update({
+      ...todo, 
+      text: editText, 
+      editing: !todo.editing
+    })
   }
 
   const onUpdate = e => {
@@ -62,11 +74,9 @@ export const TodoList = ({ todo }) => {
     }
   }
 
-  const classes = useStyles();
-
   return (
     <List className={classes.root}>
-      <ListItem 
+      <ListItem
         key={todo.id} 
         dense
         button
@@ -84,9 +94,9 @@ export const TodoList = ({ todo }) => {
         </ListItemIcon>
       {todo.editing ? // Trueで編集フィールド表示
         <TextField
-          style={{
-            marginLeft: "-20px",
-          }}
+          value={editText}
+          onChange={e => setEditText(e.target.value)}
+          onKeyPress={() => setEnterEdit()}
           InputProps={{
             className: classes.textFieldColor,
             startAdornment: (
@@ -95,8 +105,6 @@ export const TodoList = ({ todo }) => {
               </InputAdornment>
             ),
           }}
-          value={editText}
-          onChange={e => setEditText(e.target.value)}
         />
         :
         <ListItemText
