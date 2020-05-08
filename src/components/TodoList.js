@@ -23,7 +23,6 @@ const useStyles = makeStyles(() => ({
     margin: "5px auto",
     backgroundColor: "#34414f",
     borderRadius: "5px",
-    // backgroundColor: theme.palette.background.paper,
   },
   textFieldColor: {
     opacity: "0.9",
@@ -117,10 +116,11 @@ export const TodoList = ({ todo }) => {
           <TwitterShareButton
               url="dum"
               title={todo.text}
-              hashtags={["今日の積み上げ"]}
-              className="" >
-              <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
-            </TwitterShareButton>
+              hashtags={["今日の宣言"]}
+              className=""
+           >
+            <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
+          </TwitterShareButton>
             <Icon
               icon={pencilAlt}
               className="pencilIcon ml-4 mb-2"
