@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 import { Icon } from '@iconify/react';
 import pencilAlt from '@iconify/icons-fa-solid/pencil-alt';
-import { TwitterShareButton } from 'react-share';
 import firebase from 'firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -109,13 +108,11 @@ export const TodoList = ({ todo }) => {
         />
       }
         <ListItemSecondaryAction>
-          <TwitterShareButton
-            url="dum"
-            title={todo.text}
-            hashtags={["今日の積み上げ"]}
-          >
+          <a href={"https://twitter.com/intent/tweet?text=" + todo.text + "&hashtags=今日の積み上げ"}
+             target="_blank"
+           >
             <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
-          </TwitterShareButton>
+          </a>
           <Icon
             icon={pencilAlt}
             className="pencilIcon"

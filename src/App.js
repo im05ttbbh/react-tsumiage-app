@@ -90,7 +90,6 @@ const App = ({ history }) => {
         editing: false,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      console.log(todos);
     }
   }
 
@@ -105,7 +104,6 @@ const App = ({ history }) => {
       editing: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     })
-    console.log(todos);
   }
 
   const handleToLoginPage = () => {
@@ -118,7 +116,7 @@ const App = ({ history }) => {
       <div className={classes.navbar}>
         <AppBar position="relative" color="transparent">
           <Toolbar className={classes.toolbar}>
-            <span>#今日の積み上げを呟こう！</span>
+            <span>#今日の積み上げをつぶやこう！</span>
             <Button onClick={handleToLoginPage} color="inherit">
               ログアウト
             </Button>
