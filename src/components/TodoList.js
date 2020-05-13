@@ -75,27 +75,19 @@ export const TodoList = ({ todo }) => {
 
   return (
     <List className={classes.root}>
-      <ListItem
-        key={todo.id} 
-        dense
-        button
-        onClick={(e) => onCompleted(e)}
-      >
+      <ListItem key={todo.id} dense button onClick={(e) => onCompleted(e)}>
         <ListItemIcon>
           <Checkbox
-            edge="start"
-            type="checkbox"
-            checked={todo.completed}
+            edge="start" type="checkbox" checked={todo.completed}
             style ={{
               color: "#f48fb1",
             }}
-            />
+          />
         </ListItemIcon>
       {todo.editing ? // Trueで編集フィールド表示
-        <TextField
-          value={editText}
-          onChange={e => setEditText(e.target.value)}
-          onKeyPress={() => setEnterEdit()}
+        <TextField 
+          value={editText} onChange={e => setEditText(e.target.value)}
+          onKeyPress={() => setEnterEdit()} 
           InputProps={{
             className: classes.textFieldColor,
             startAdornment: (
@@ -107,28 +99,27 @@ export const TodoList = ({ todo }) => {
         />
         :
         <ListItemText
-           disableTypography
-           primary={todo.text}
-           className={`todoScript + ${todo.completed ? "done" : ""}`}
-         />
+          disableTypography
+          primary={todo.text}
+          className={`todoScript + ${todo.completed ? "done" : ""}`}
+        />
       }
         <ListItemSecondaryAction>
           <TwitterShareButton
-              url="dum"
-              title={todo.text}
-              hashtags={["今日の積み上げ"]}
-              className=""
-           >
+            url="dum"
+            title={todo.text}
+            hashtags={["今日の積み上げ"]}
+          >
             <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
           </TwitterShareButton>
-            <Icon
-              icon={pencilAlt}
-              className="pencilIcon ml-4 mb-2"
-              onClick={onEditing}
-            />
-            <button onClick={onDelete} className="trashButton ml-3">
-              <FontAwesomeIcon icon="trash" className="trashIcon" />
-            </button>
+          <Icon
+            icon={pencilAlt}
+            className="pencilIcon"
+            onClick={onEditing}
+          />
+          <button onClick={onDelete} className="trashButton">
+            <FontAwesomeIcon icon="trash" className="trashIcon" />
+          </button>
         </ListItemSecondaryAction>
       </ListItem>
     </List>
