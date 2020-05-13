@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   inputText: {
-    color: "#fff",
+    color: "#f4f5f7",
     fontWeight: "bold",
     fontSize: "large",
   },
