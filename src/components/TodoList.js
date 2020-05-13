@@ -24,12 +24,16 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#34414f",
     borderRadius: "5px",
   },
-  textFieldColor: {
+  editTextField: {
     opacity: "0.9",
     color: "#61dafb",
     fontWeight: "bold",
     fontSize: "large",
     marginLeft: "-20px",
+    ["@media (max-width: 767px)"]: {
+      fontSize: "small",
+      width: '145px',
+    }
   },
 }));
 
@@ -85,11 +89,11 @@ export const TodoList = ({ todo }) => {
           />
         </ListItemIcon>
       {todo.editing ? // Trueで編集フィールド表示
-        <TextField 
+        <TextField
           value={editText} onChange={e => setEditText(e.target.value)}
           onKeyPress={() => setEnterEdit()} 
           InputProps={{
-            className: classes.textFieldColor,
+            className: classes.editTextField,
             startAdornment: (
               <InputAdornment position="start">
                 <AutorenewIcon onClick={e => onUpdate(e)} />

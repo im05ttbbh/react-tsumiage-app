@@ -13,10 +13,9 @@ import FormGroup from '@material-ui/core/FormGroup';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import MediaQuery from "react-responsive";
 
 const useStyles = makeStyles((theme) => ({
-  pcForm: {
+  form: {
     '& label': {
       color: "#aaa",
     },
@@ -32,23 +31,10 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
       width: '47ch',
-    },
-  },
-  phoneForm: {
-    '& label': {
-      color: "#aaa",
-    },
-    '& label.Mui-focused': {
-      color: '#61dafb',
-    },
-    '& .MuiInput-underline:before': {
-      borderBottomColor: '#aaa',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#61dafb',
-    },
-    '& > *': {
-      margin: theme.spacing(1),
+      ["@media (max-width: 767px)"]: {
+        width: "26ch",
+        margin: theme.spacing(1),
+      }
     },
   },
   inputText: {
@@ -140,40 +126,21 @@ const App = ({ history }) => {
         </AppBar>
       </div>
       <Container maxWidth="sm">
-        <MediaQuery query="(max-width: 767px)">
-          <FormGroup>
-            <form className={classes.phoneForm} noValidate autoComplete="off">
-              <AddBoxIcon className={classes.addIcon} onClick={e => onCreate(e)}/>
-                <TextField
-                  value={newText}
-                  onChange={e => setNewText(e.target.value)}
-                  onKeyPress={e => onEnterCreate(e)}
-                  id="standard-secondary"
-                  label="新規タスクを入力"
-                  InputProps={{
-                    className: classes.inputText,
-                  }}
-                />
-            </form>
-          </FormGroup>
-        </MediaQuery>
-        <MediaQuery query="(min-width: 768px)">
-          <FormGroup>
-            <form className={classes.pcForm} noValidate autoComplete="off">
-            <AddBoxIcon className={classes.addIcon} onClick={e => onCreate(e)}/>
-              <TextField
-                value={newText}
-                onChange={e => setNewText(e.target.value)}
-                onKeyPress={e => onEnterCreate(e)}
-                id="standard-secondary"
-                label="新規タスクを入力"
-                InputProps={{
-                  className: classes.inputText,
-                }}
-              />
-            </form>
-          </FormGroup>
-        </MediaQuery>
+        <FormGroup>
+          <form className={classes.form} noValidate autoComplete="off">
+          <AddBoxIcon className={classes.addIcon} onClick={e => onCreate(e)}/>
+            <TextField
+              value={newText}
+              onChange={e => setNewText(e.target.value)}
+              onKeyPress={e => onEnterCreate(e)}
+              id="standard-secondary"
+              label="新規タスクを入力"
+              InputProps={{
+                className: classes.inputText,
+              }}
+            />
+          </form>
+        </FormGroup>
         {todos.map(todo => (
           <TodoList todo={todo} key={todo.id} completed={todo.completed} />
         ))}
