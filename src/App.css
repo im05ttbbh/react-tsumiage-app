@@ -2,18 +2,11 @@
   text-align: center;
   background-color: #282c34;
   color: #61dafb;
+  word-break: break-all;
 }
 
 .ListItem {
   color: #61dafb;
-}
-
-.todoScript {
-  font-weight: bold;
-  user-select: none;
-  font-size: large;
-  margin-left: -20px;
-  margin-right: 90px;
 }
 
 .editForm {
@@ -25,27 +18,64 @@
   color: #ccc;
 }
 
-.icons {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .trashButton {
   background-color: #34414f;
   border: 1px solid transparent;
 }
- 
-.trashIcon {
-  color: orange;
-  font-size: 20px;
+
+@media (min-width: 768px) { 
+  .todoScript {
+    font-weight: bold;
+    user-select: none;
+    font-size: large;
+    margin-left: -20px;
+    margin-right: 90px;
+  }  
+
+  .trashIcon {
+    color: orange;
+    font-size: 20px;
+    margin-left: 1rem!important;
+  }
+  
+  .twitterIcon {
+    font-size: 23px;
+    color: aqua;
+  }
+  
+  .pencilIcon {
+    font-size: 22px;
+    color: #fff;
+    margin-left: 1.5rem!important;
+    margin-bottom: .5rem!important;
+  }
 }
 
-.twitterIcon {
-  font-size: 23px;
-  color: aqua;
+@media (max-width: 767px) {
+  .todoScript {
+    font-weight: bold;
+    user-select: none;
+    font-size: small;
+    margin-left: -20px;
+    margin-right: 54px;
+  }
+  
+  .trashIcon {
+    color: orange;
+    font-size: 15px;
+    margin-left: 7px;
+  }
+  
+  .twitterIcon {
+    font-size: 18px;
+    color: aqua;
+  }
+  
+  .pencilIcon {
+    font-size: 17px;
+    color: #fff;
+    margin-left: 15px;
+    margin-bottom: 4px;  
+  }
 }
 
-.pencilIcon {
-  font-size: 22px;
-  color: white;
-}
