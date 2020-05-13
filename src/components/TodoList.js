@@ -116,7 +116,7 @@ export const TodoList = ({ todo }) => {
           <TwitterShareButton
               url="dum"
               title={todo.text}
-              hashtags={["今日の宣言"]}
+              hashtags={["今日の積み上げ"]}
               className=""
            >
             <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
