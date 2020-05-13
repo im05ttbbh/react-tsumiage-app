@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     marginTop: theme.spacing(3),
+    marginRight: theme.spacing(1.5),
     '& label': {
       color: "#f4f5f7",
     },
